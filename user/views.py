@@ -1,4 +1,6 @@
+from django.core.paginator import Paginator
 from django.http import Http404
+from rest_framework import filters
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,7 +13,7 @@ from django.contrib.auth.models import User
 from .serializers import RegisterSerializer
 from .permissions import AnonPermissionOnly
 from .serializers import UserSerializers
-from rest_framework import permissions
+from rest_framework import permissions, generics
 from rest_framework.generics import (
     CreateAPIView
 )

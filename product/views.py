@@ -1,3 +1,4 @@
+from django.contrib.admin import filters
 from django.http import Http404
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
@@ -9,10 +10,13 @@ from product.serializers import ProductSerializer, CategorySerializer
 from rest_framework import permissions, status
 from django.core.paginator import Paginator
 from rest_framework.permissions import IsAdminUser
+from rest_framework import filters
 
 
 class ProductListApiView(APIView):
     permission_classes = [permissions.AllowAny]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
     def get(self,  request):
         products = Product.objects.all()
