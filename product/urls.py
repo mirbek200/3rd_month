@@ -7,7 +7,8 @@ from .views import (ProductListApiView,
                     ProductDestroyApiView,
                     CategoryApiView,
                     PriceApiView,
-                    CategoryUpdateApiView)
+                    CategoryUpdateApiView,
+                    ProductFilterApiView)
 
 urlpatterns = [
     path('prod_list/', ProductListApiView.as_view(), name='prod-list'),
@@ -19,4 +20,5 @@ urlpatterns = [
     path('cat_update/', CategoryUpdateApiView.as_view(), name='cat_update'),
     path('filter_cat/<slug:name>/', CategoryApiView.as_view(), name='filter_category'),
     path('filter_price/<int:price>/', PriceApiView.as_view(), name='filter-price'),
+    path('filter_product/', ProductFilterApiView.as_view(), name='filter-product'),
 ]

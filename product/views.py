@@ -1,13 +1,12 @@
-from django.contrib.admin import filters
 from django.http import Http404
-from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from product.models import Product, Category
 from product.serializers import ProductSerializer, CategorySerializer
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
 from django.core.paginator import Paginator
 from rest_framework.permissions import IsAdminUser
 from rest_framework import filters
@@ -25,6 +24,13 @@ class ProductListApiView(APIView):
         print(page_num)
         serializers = ProductSerializer(paginator.page(page_num), many=True)
         return Response(serializers.data)
+
+
+class ProductFilterApiView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category', 'name', 'price']
 
 
 class ProductCreateApiView(APIView):
