@@ -14,7 +14,7 @@ urlpatterns = [
     path('avg/',  AvgPriceApiView.as_view(), name='avg'),
     path('min/',  MinPriceApiView.as_view(), name='min'),
     path('max/',  MaxPriceApiView.as_view(), name='max'),
-    path('spatistic/',  PriceApiView.as_view(), name='statistic'),
+    path('statistic/',  PriceApiView.as_view(), name='statistic'),
     path('revenue/',  Revenue.as_view(), name='revenue'),
     path('len_product/', LenProduct.as_view(), name='products'),
 

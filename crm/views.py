@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from product.models import Category, Product
 from product.serializers import CategorySerializer, ProductSerializer
-from user.serializers import UserSerializers, AccountSerializers
+from user.serializers import UserSerializers
 from user.permissions import *
 
 
@@ -109,9 +109,15 @@ class Revenue(APIView):
             one = i.price * i.quantity
             revenue.append(one)
         revenue = sum(revenue)
+        posts = []
+        for i in products:
+            posts.append(i.id)
+
+        product = len(posts)
 
         data = {
-            "revenue": revenue
+            "revenue": revenue,
+            "product": product
         }
         return Response(data)
 

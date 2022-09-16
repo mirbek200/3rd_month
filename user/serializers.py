@@ -3,7 +3,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
-from .models import Account
+from .models import Account, PhoneNumber
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -44,7 +44,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         user = User.objects.create(
             username=validate_data['username'],
-            email=validate_data['email']
+            email=validate_data['email'],
         )
         user.set_password(validate_data['password'])
         user.save()
@@ -59,10 +59,52 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class AccountSerializers(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password]
+    )
+    password2 = serializers.CharField(
+        write_only=True,
+        required=True,
+    )
+    username = serializers.CharField(
+        write_only=True,
+        required=True,
+    )
+
 
     class Meta:
         model = Account
-        fields = ['id', 'user']
+        fields = ['id', 'username', 'email', 'password', 'password2', 'phone_number']
+
+    # def validate(self, attrs):
+    #     if attrs['password'] != attrs['password2']:
+    #         raise serializers.ValidationError(
+    #             {"password": "Password fields didn't match."}
+    #         )
+    #     return attrs
+    #
+    # def create(self, validate_data):
+    #     user = User.objects.create(
+    #         username=validate_data['username'],
+    #         email=validate_data['email'],
+    #     )
+    #     account = Account.objects.create(
+    #         phone_number=validate_data['phone_number'],
+    #     )
+    #     user.set_password(validate_data['password'])
+    #     user.save()
+    #     account.save()
+    #     return user, account
+
+
+
+
 
 
 

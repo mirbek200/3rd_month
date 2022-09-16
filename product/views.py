@@ -9,7 +9,6 @@ from product.serializers import ProductSerializer, CategorySerializer
 from rest_framework import permissions, status, generics
 from django.core.paginator import Paginator
 from rest_framework.permissions import IsAdminUser
-from rest_framework import filters
 
 
 class ProductListApiView(APIView):
@@ -87,6 +86,14 @@ class ProductDestroyApiView(APIView):
         post = self.get_object(id)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CategoryListApiView(APIView):
+
+    def get(self, request):
+        category = Category.objects.all()
+        serializers = CategorySerializer(category, many=True)
+        return Response(serializers.data)
 
 
 class CategoryCreateApiView(APIView):
