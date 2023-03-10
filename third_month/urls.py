@@ -16,9 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from apps.cart.views import CancelView, SuccessView, CreateCheckoutSessionView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/product/', include('product.urls')),
-    path('api/user/', include('user.urls')),
-    path('api/crm/', include('crm.urls'))
+    path('api/product/', include('apps.product.urls')),
+    path('api/user/', include('apps.user.urls')),
+    path('api/crm/', include('apps.crm.urls')),
+    path('api/cart/', include('apps.cart.urls')),
+    path('cancel/', CancelView.as_view(), name='cancel'),
+    path('success/', SuccessView.as_view(), name='success'),
+    path('create-checkout-session/<pk>/', CreateCheckoutSessionView.as_view(), name='create-checkout-session')
 ]

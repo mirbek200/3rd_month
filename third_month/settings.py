@@ -16,6 +16,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STRIPE_PUBLIC_KEY = 'pk_test_51MWHJGBVATJd6DbCSYBnFAYOeQUiiiXppSqd8Xv4AMVXwJiPWIW6s9kNevbGYYkEIEyISLUfIkjnvmlx2OFMRbOe00L4EgZOcQ'
+STRIPE_SECRET_KEY = 'sk_test_51MWHJGBVATJd6DbC8NYaWE2r4TuIPbJMDwDm9qVEkzoIpEhoJ0xxvAiuSQ1wFqnCRgmJvsynwKflqujxD0WWbK8700a45gEE75'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -27,6 +29,21 @@ SECRET_KEY = 'django-insecure-rqk$r2sk(6t)!ea&ano=j+1zs-(&v7(v^7npj#!=ax*0_)352r
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+]
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -43,15 +60,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'product',
+    'apps.product',
     'rest_framework',
-    'user',
+    'apps.user',
     'rest_framework_simplejwt',
-    'crm',
-    'django_filters'
+    'apps.crm',
+    'django_filters',
+    'apps.cart',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,12 +149,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
