@@ -116,7 +116,7 @@ class PayToCartAPIView(TemplateView):
         product['id']=user_id
         product['name']='order'
         product['price']=price
-        context = super(PayToCartAPIView, self).get_context_data(  **kwargs)
+        context = super(PayToCartAPIView, self).get_context_data(**kwargs)
         context.update({
             "product": product,
             "STRIPE_PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY

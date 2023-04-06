@@ -34,6 +34,7 @@ class ProductFilterApiView(generics.ListAPIView):
 
 class ProductCreateApiView(APIView):
     serializer_class = ProductSerializer
+
     def post(self, request):
         serializers = ProductSerializer(data=request.data)
         if serializers.is_valid():
